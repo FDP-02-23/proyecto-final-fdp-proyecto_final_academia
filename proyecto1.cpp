@@ -125,6 +125,25 @@ int main() {
                     cout << "Ingrese la opcion: ";
                     cin >> opcionAdmin;
 
+                    switch (opcionAdmin) {
+                        case 1:
+                            
+                            break;
+                        case 2:
+                            agregarNuevaInformacion(usuarios);
+                            break;
+                        case 3:
+                            eliminarInformacionExistente(usuarios);
+                            break;
+                        case 4:
+                            // Regresar al menú principal
+                            break;
+                        case 5:
+                            // Salir del programa
+                            break;
+                        default:
+                            cout << "Opcion no valida. Intente de nuevo.\n";
+                    }
 
                 } while (opcionAdmin != 4 && opcionAdmin != 5);
                 break;
