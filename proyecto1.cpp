@@ -104,13 +104,48 @@ int main() {
         cout << "---------------------------------\n";
         cout << "1. Opciones administrativas\n";
         cout << "2. Opciones de usuario general\n";
-        cout << "3. Mostrar toda la informacion\n";
-        cout << "4. Salir del programa\n";
+        cout << "3. Salir del programa\n";
+        
         cout << "Ingrese la opcion: ";
         cin >> opcionPrincipal;
+   switch (opcionPrincipal) {
+            case 1: // Opciones administrativas
+                int opcionAdmin;
+                do {
+                    limpiarConsola();
+                    cout << "1. Buscar y modificar un dato\n";
+                    cout << "2. Agregar nueva informacion\n";
+                    cout << "3. Eliminar informacion existente\n";
+                    cout << "4. Regresar al menu principal\n";
+                    cout << "5. Salir del programa\n";
+                    cout << "Ingrese la opcion: ";
+                    cin >> opcionAdmin;
+
+                    switch (opcionAdmin) {
+                        case 1:
+                            
+                            break;
+                        case 2:
+                            agregarNuevaInformacion(usuarios);
+                            break;
+                        case 3:
+                            eliminarInformacionExistente(usuarios);
+                            break;
+                        case 4:
+                            // Regresar al menú principal
+                            break;
+                        case 5:
+                            // Salir del programa
+                            break;
+                        default:
+                            cout << "Opcion no valida. Intente de nuevo.\n";
+                    }
+
+                } while (opcionAdmin != 4 && opcionAdmin != 5);
+                break;
 
 
-     } while (opcionPrincipal != 4);
+     } while (opcionPrincipal != 3);
 
     return 0;
 }
