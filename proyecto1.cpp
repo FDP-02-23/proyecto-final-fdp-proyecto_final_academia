@@ -143,10 +143,23 @@ int main() {
                             break;
                         default:
                             cout << "Opcion no valida. Intente de nuevo.\n";
+    
                     }
 
                 } while (opcionAdmin != 4 && opcionAdmin != 5);
                 break;
+
+    case 2: // Opciones de usuario general
+        int opcionUsuario;
+         do {
+            limpiarConsola();
+                    cout << "1. Buscar informacion\n";
+                    cout << "2. Solicitar agregar nueva informacion a los administradores\n";
+                    cout << "3. Regresar al menu principal\n";
+                    cout << "4. Salir\n";
+                    cout << "Ingrese la opcion: ";
+                    cin >> opcionUsuario;
+
 
      } while (opcionPrincipal != 3);
 
