@@ -71,3 +71,47 @@ void agregarNuevaInformacion(vector<Usuario>& usuarios) {
     guardarLog("Se agregó nueva información para " + nuevoUsuario.nombre);
 }
 
+void eliminarInformacionExistente(vector<Usuario>& usuarios) {
+    string nombreEliminar;
+    cout << "Ingrese el nombre a eliminar: ";
+    cin >> nombreEliminar;
+
+    for (auto it = usuarios.begin(); it != usuarios.end(); ++it) {
+        if (it->nombre == nombreEliminar) {
+            // Eliminar el estudiante
+            usuarios.erase(it);
+
+            // Guardar en el log
+            guardarLog("Se eliminó la información de " + nombreEliminar);
+            return;
+        }
+    }
+
+    cout << "No se encontró el estudiante con el nombre proporcionado.\n";
+}
+
+int main() {
+    vector<Usuario> usuarios;
+
+    int opcionPrincipal;
+    do {
+
+        //limpiamos nuestra consola
+        limpiarConsola();
+
+        //Mostramos las opciones del menu
+        cout << "Programa de Gestion de Estudiantes\n";
+        cout << "---------------------------------\n";
+        cout << "1. Opciones administrativas\n";
+        cout << "2. Opciones de usuario general\n";
+        cout << "3. Mostrar toda la informacion\n";
+        cout << "4. Salir del programa\n";
+        cout << "Ingrese la opcion: ";
+        cin >> opcionPrincipal;
+
+
+     } while (opcionPrincipal != 4);
+
+    return 0;
+}
+
