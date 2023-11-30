@@ -110,8 +110,24 @@ int main() {
         
         cout << "Ingrese la opcion: ";
         cin >> opcionPrincipal;
-  
 
+
+ switch (opcionPrincipal) {
+            case 1: // Opciones administrativas
+                int opcionAdmin;
+                do {
+                    limpiarConsola();
+                    cout << "1. Buscar y modificar un dato\n";
+                    cout << "2. Agregar nueva informacion\n";
+                    cout << "3. Eliminar informacion existente\n";
+                    cout << "4. Regresar al menu principal\n";
+                    cout << "5. Salir del programa\n";
+                    cout << "Ingrese la opcion: ";
+                    cin >> opcionAdmin;
+
+
+                } while (opcionAdmin != 4 && opcionAdmin != 5);
+                break;
 
      } while (opcionPrincipal != 3);
 
