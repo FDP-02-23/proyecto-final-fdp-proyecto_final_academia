@@ -161,8 +161,40 @@ int main() {
                     cin >> opcionUsuario;
 
 
-     } while (opcionPrincipal != 3);
+     switch (opcionUsuario) {
+                        case 1:
+                            // Implementar búsqueda de información
+                            break;
+                        case 2:
+                            // Implementar solicitud de agregar nueva información a los administradores
+                            break;
+                        case 3:
+                            // Regresar al menú principal
+                            break;
+                        case 4:
+                            // Salir del programa
+                            break;
+                        default:
+                            cout << "Opcion no valida. Intente de nuevo.\n";
+                    }
+
+                } while (opcionUsuario != 3 && opcionUsuario != 4);
+                break;
+
+            case 3: // Mostrar toda la información
+                mostrarInformacion(usuarios);
+                break;
+
+            case 4: // Salir del programa
+                break;
+
+            default:
+                cout << "Opcion no valida. Intente de nuevo.\n";
+        }
+
+    } while (opcionPrincipal != 3);
 
     return 0;
 }
+
 
