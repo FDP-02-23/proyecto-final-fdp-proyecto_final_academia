@@ -89,3 +89,32 @@ void eliminarInformacionExistente(vector<Usuario>& usuarios) {
 
     cout << "No se encontró el estudiante con el nombre proporcionado.\n";
 }
+
+
+
+int main() {
+    vector<Usuario> usuarios;
+
+    int opcionPrincipal;
+    do {
+
+        //limpiamos nuestra consola
+        limpiarConsola();
+
+        //Mostramos las opciones del menu
+        cout << "Programa de Gestion de Estudiantes\n";
+        cout << "---------------------------------\n";
+        cout << "1. Opciones administrativas\n";
+        cout << "2. Opciones de usuario general\n";
+        cout << "3. Salir del programa\n";
+        
+        cout << "Ingrese la opcion: ";
+        cin >> opcionPrincipal;
+  
+
+
+     } while (opcionPrincipal != 3);
+
+    return 0;
+}
+
