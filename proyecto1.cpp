@@ -7,194 +7,256 @@ using namespace std;
 
 struct Usuario {
     string nombre;
+    string apellido;
     string correo;
     int edad;
 };
 
-vector<Usuario> usuarios; // Para guardar datos del usuario
+vector<Usuario> usuarios;  // Almacenar los usuarios en memoria
 
-//funcion para limpiar consola
-void limpiarConsola() {
-    system("cls");
-}
-
-// Aqui se hizo uso de la funcion const que es para declarar una informacion que aparecera constantemente
-// Sobre esta funcion nos informamos mas en https://learn.microsoft.com/es-es/cpp/cpp/const-cpp?view=msvc-170
-
-
-//Funcion para mostrar la informacion de los usuarios
-void mostrarInformacion(const vector<Usuario>& usuarios) {
-    cout << "Informacion del Usuario:\n";
-    cout << "---------------------------------\n";
-    for (const auto& Usuario : usuarios) {
-    cout << "Nombre Completo: " << Usuario.nombre << "\tCorreo: " << Usuario.correo<< "\tEdad: "<< Usuario.edad<<"\n";
-        // Mostrar otros campos según sea necesario
-        cout << "---------------------------------\n";
-    }};
-     
-
-     //Funcion con log para guardar el registro en un archivo
-    void guardarLog(const string& accion) {
-    ofstream logFile("log.txt", ios::app);
-    if (logFile.is_open()) {
-        logFile << accion << "\n";
-        logFile.close();
-    } else {
-        cout << "Error al abrir el archivo de registro.\n";
-    }
-}
-
-//
-void agregarNuevaInformacion(vector<Usuario>& usuarios) {
-    Usuario nuevoUsuario;
-    cout << "Ingrese el nombre del nuevo usuario: ";
-    cin >> nuevoUsuario.nombre;
-
-    // aqui comprobaremos si ese nombre de usuario aun no ha sido ingresado a registro
-    for (const auto& Usuario : usuarios) {
-        if (Usuario.nombre == nuevoUsuario.nombre) {
-            cout << "Este usuario ya existe en la base de datos.\n";
-            return;
-        }
-    }
-
-    cout << "Ingrese la edad del nuevo estudiante: ";
-    cin >> nuevoUsuario.edad;
-
-    cout << "Ingrese el correo del nuevo estudiante: ";
-    cin >> nuevoUsuario.correo;
-
-    // Agregamos el nuevo usuario
-   usuarios.push_back(nuevoUsuario);
-
-    // Aqui usamos log nuevamente
-    guardarLog("Se agregó nueva información para " + nuevoUsuario.nombre);
-}
-
-void eliminarInformacionExistente(vector<Usuario>& usuarios) {
-    string nombreEliminar;
-    cout << "Ingrese el nombre a eliminar: ";
-    cin >> nombreEliminar;
-
-    for (auto it = usuarios.begin(); it != usuarios.end(); ++it) {
-        if (it->nombre == nombreEliminar) {
-            // Eliminar el estudiante
-            usuarios.erase(it);
-
-            // Guardar en el log
-            guardarLog("Se eliminó la información de " + nombreEliminar);
-            return;
-        }
-    }
-
-    cout << "No se encontró el estudiante con el nombre proporcionado.\n";
-}
-
-
+// Funciones prototipo
+void mostrarMenu();
+void mostrarMenuAdmin();
+void mostrarMenuUsuario();
+void limpiarConsola();
+void cargarDatos();
+void guardarDatos();
+void agregarUsuario();
+void buscarUsuario();
+void modificarUsuario();
+void eliminarUsuario();
+void mostrarUsuarios();
+void registrarLog(const string& accion);
+void mostrarCursosDisponibles();
 
 int main() {
-    vector<Usuario> usuarios;
+    cargarDatos();  // Cargar datos existentes desde un archivo al iniciar el programa
 
-    int opcionPrincipal;
-    do {
+    while (true) {
+        mostrarMenu();
+        int opcion;
+        cin >> opcion;
+        cin.ignore();  // Limpiar el buffer de entrada
 
-        //limpiamos nuestra consola
-        limpiarConsola();
-
-        //Mostramos las opciones del menu
-        cout << "Programa de Gestion de Estudiantes\n";
-        cout << "---------------------------------\n";
-        cout << "1. Opciones administrativas\n";
-        cout << "2. Opciones de usuario general\n";
-        cout << "3. Salir del programa\n";
-        
-        cout << "Ingrese la opcion: ";
-        cin >> opcionPrincipal;
-
-
- switch (opcionPrincipal) {
-            case 1: // Opciones administrativas
+        switch (opcion) {
+            case 1:  // Usuario Administrador
+                mostrarMenuAdmin();
                 int opcionAdmin;
-                do {
-                    limpiarConsola();
-                    cout << "1. Buscar y modificar un dato\n";
-                    cout << "2. Agregar nueva informacion\n";
-                    cout << "3. Eliminar informacion existente\n";
-                    cout << "4. Regresar al menu principal\n";
-                    cout << "5. Salir del programa\n";
-                    cout << "Ingrese la opcion: ";
-                    cin >> opcionAdmin;
+                cin >> opcionAdmin;
+                cin.ignore();
 
-                    switch (opcionAdmin) {
-                        case 1:
-                            
-                            break;
-                        case 2:
-                            agregarNuevaInformacion(usuarios);
-                            break;
-                        case 3:
-                            eliminarInformacionExistente(usuarios);
-                            break;
-                        case 4:
-                            // Regresar al menú principal
-                            break;
-                        case 5:
-                            // Salir del programa
-                            break;
-                        default:
-                            cout << "Opcion no valida. Intente de nuevo.\n";
-    
-                    }
-
-                } while (opcionAdmin != 4 && opcionAdmin != 5);
+                switch (opcionAdmin) {
+                    case 1: agregarUsuario(); break;
+                    case 2: buscarUsuario(); break;
+                    case 3: modificarUsuario(); break;
+                    case 4: eliminarUsuario(); break;
+                    case 5: mostrarUsuarios(); break;
+                    case 6: break;  // Regresar al menú principal
+                    case 7: return 0;  // Salir del programa
+                    default: cout << "Opción no válida." << endl;
+                }
                 break;
 
-    case 2: // Opciones de usuario general
-        int opcionUsuario;
-         do {
-            limpiarConsola();
-                    cout << "1. Buscar informacion\n";
-                    cout << "2. Solicitar agregar nueva informacion a los administradores\n";
-                    cout << "3. Regresar al menu principal\n";
-                    cout << "4. Salir\n";
-                    cout << "Ingrese la opcion: ";
-                    cin >> opcionUsuario;
+            case 2:  // Usuario General
+                mostrarMenuUsuario();
+                int opcionUsuario;
+                cin >> opcionUsuario;
+                cin.ignore();
 
-
-     switch (opcionUsuario) {
-                        case 1:
-                            // Implementar búsqueda de información
-                            break;
-                        case 2:
-                            // Implementar solicitud de agregar nueva información a los administradores
-                            break;
-                        case 3:
-                            // Regresar al menú principal
-                            break;
-                        case 4:
-                            // Salir del programa
-                            break;
-                        default:
-                            cout << "Opcion no valida. Intente de nuevo.\n";
-                    }
-
-                } while (opcionUsuario != 3 && opcionUsuario != 4);
+                switch (opcionUsuario) {
+                    case 1: buscarUsuario(); break;
+                    case 2: mostrarCursosDisponibles(); break;
+                    case 3: break;  // Regresar al menú principal
+                    case 4: return 0;  // Salir del programa
+                    default: cout << "Opción no válida." << endl;
+                }
                 break;
 
-            case 3: // Mostrar toda la información
-                mostrarInformacion(usuarios);
-                break;
-
-            case 4: // Salir del programa
-                break;
-
-            default:
-                cout << "Opcion no valida. Intente de nuevo.\n";
+            case 3: return 0;  // Salir del programa
+            default: cout << "Opción no válida." << endl;
         }
-
-    } while (opcionPrincipal != 3);
+    }
 
     return 0;
 }
 
+void mostrarMenu() {
+    limpiarConsola();
+    cout << "Bienvenido al programa de gestión de usuarios" << endl;
+    cout << "1. Usuario Administrador" << endl;
+    cout << "2. Usuario General" << endl;
+    cout << "3. Salir" << endl;
+    cout << "Ingrese su opción: ";
+}
 
+void mostrarMenuAdmin() {
+    limpiarConsola();
+    cout << "Menú Administrador" << endl;
+    cout << "1. Agregar Usuario" << endl;
+    cout << "2. Buscar Usuario" << endl;
+    cout << "3. Modificar Usuario" << endl;
+    cout << "4. Eliminar Usuario" << endl;
+    cout << "5. Mostrar Usuarios" << endl;
+    cout << "6.. Regresar al menú principal" << endl;
+    cout << "7. Salir del programa" << endl;
+    cout << "Ingrese su opción: ";
+}
+
+void mostrarMenuUsuario() {
+    limpiarConsola();
+    cout << "Menú Usuario General" << endl;
+    cout << "1. Buscar Usuario" << endl;
+    cout << "2. Mostrar Cursos disponibles" << endl;
+    cout << "3. Regresar al menú principal" << endl;
+    cout << "4. Salir del programa" << endl;
+    cout << "Ingrese su opción: ";
+}
+
+void limpiarConsola() {
+    system( "cls");
+}
+
+void cargarDatos() {
+    ifstream archivo("usuarios.txt");
+    if (archivo.is_open()) {
+        Usuario usuario;
+        while (getline(archivo, usuario.nombre)) {
+            getline(archivo, usuario.apellido);
+            getline(archivo, usuario.correo);
+            archivo >> usuario.edad;
+            usuarios.push_back(usuario);
+        }
+        archivo.close();
+    } else {
+        cout << "No se pudo abrir el archivo de usuarios." << endl;
+    }
+}
+
+void guardarDatos() {
+    ofstream archivo("usuarios.txt");
+    if (archivo.is_open()) {
+        for (const Usuario& usuario : usuarios) {
+            archivo << usuario.nombre << endl;
+            archivo << usuario.apellido << endl;
+            archivo << usuario.correo << endl;
+            archivo << usuario.edad << endl;
+        }
+        archivo.close();
+    } else {
+        cout << "No se pudo abrir el archivo de usuarios." << endl;
+    }
+}
+
+void agregarUsuario() {
+    Usuario usuario;
+    cout << "Ingrese el nombre: ";
+    getline(cin, usuario.nombre);
+    cout << "Ingrese el apellido: ";
+    getline(cin, usuario.apellido);
+    cout << "Ingrese el correo: ";
+    getline(cin, usuario.correo);
+    cout << "Ingrese la edad: ";
+    cin >> usuario.edad;
+    cin.ignore();
+    usuarios.push_back(usuario);
+    guardarDatos();
+    registrarLog("Se agregó un usuario.");
+    cout << "Usuario agregado exitosamente." << endl;
+}
+
+void buscarUsuario() {
+    string busqueda;
+    cout << "Ingrese el término de búsqueda: ";
+    getline(cin, busqueda);
+
+    limpiarConsola();
+    cout << "Resultados de la búsqueda:" << endl;
+    for (const Usuario& usuario : usuarios) {
+        if (usuario.nombre.find(busqueda) != string::npos ||
+            usuario.apellido.find(busqueda) != string::npos ||
+            usuario.correo.find(busqueda) != string::npos ||
+            to_string(usuario.edad).find(busqueda) != string::npos) {
+            cout << "Nombre: " << usuario.nombre << endl;
+            cout << "Apellido: " << usuario.apellido << endl;
+            cout << "Correo: " << usuario.correo << endl;
+            cout << "Edad: " << usuario.edad << endl;
+            cout << "---------------------------" << endl;
+        }
+    }
+}
+
+void modificarUsuario() {
+    string correo;
+    cout << "Ingrese el correo del usuario que desea modificar: ";
+    getline(cin, correo);
+
+    for (Usuario& usuario : usuarios) {
+        if (usuario.correo == correo) {
+            cout << "Ingrese el nuevo nombre: ";
+            getline(cin, usuario.nombre);
+            cout << "Ingrese el nuevo apellido: ";
+            getline(cin, usuario.apellido);
+            cout << "Ingrese el nuevo correo: ";
+            getline(cin, usuario.correo);
+            cout << "Ingrese la nueva edad: ";
+            cin >> usuario.edad;
+            cin.ignore();
+            guardarDatos();
+            registrarLog("Se modificó un usuario.");
+            cout << "Usuario modificado exitosamente." << endl;
+            return;
+        }
+    }
+
+    cout << "Usuario no encontrado." << endl;
+}
+
+void eliminarUsuario() {
+    string correo;
+    cout << "Ingrese el correo del usuario que desea eliminar: ";
+    getline(cin, correo);
+
+    for (auto it = usuarios.begin(); it != usuarios.end(); ++it) {
+        if (it->correo == correo) {
+            usuarios.erase(it);
+            guardarDatos();
+            registrarLog("Se eliminó un usuario.");
+            cout << "Usuario eliminado exitosamente." << endl;
+            return;
+        }
+    }
+
+    cout << "Usuario no encontrado." << endl;
+}
+
+void mostrarUsuarios() {
+    limpiarConsola();
+    cout << "Lista de Usuarios:" << endl;
+    for (const Usuario& usuario : usuarios) {
+        cout << "Nombre: " << usuario.nombre << endl;
+        cout << "Apellido: " << usuario.apellido << endl;
+        cout << "Correo: " << usuario.correo << endl;
+        cout << "Edad: " << usuario.edad << endl;
+        cout << "---------------------------" << endl;
+    }
+}
+
+void registrarLog(const string& accion) {
+    ofstream log("log.txt", ios::app);
+    if (log.is_open()) {
+        log << accion << endl;
+        log.close();
+    } else {
+        cout << "No se pudo abrir el archivo de registro." << endl;
+    }
+}
+
+void mostrarCursosDisponibles() {
+    std::cout << "=== CURSOS DISPONIBLES ===" << std::endl;  
+    cout << "1. Inglés como Segundo Idioma (principiantes)" << endl;
+    cout << "2.Cursos Académicos (medio, avanzado)" << endl;
+    cout << "3. Taller bilingue de arte y cultura (General)" << endl;
+    cout << "4. Habilidades Interpersonales (principiante, medio)" << endl;
+    cout << "habilidades de Idioma Nativo (avanzado)" << endl;
+    cout << "Ingrese su opción: ";
+} 
