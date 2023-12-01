@@ -116,7 +116,7 @@ void mostrarMenuUsuario() {
 }
 
 void limpiarConsola() {                                        //para general el bucle siempre y cuando el usuario no seleccione la opcion de salir del programa
-   
+   system ( "cls");
 }
 
 void cargarDatos() {                                            //funcion que ejecuta el archivo donde se encuentran almacenados los usuarios, para luego poder realizar cambios(si es solicitado)
